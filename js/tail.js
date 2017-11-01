@@ -52,6 +52,6 @@ function drawTail(){
 	}
 }
 
-// function addTailItem(){
-// 	tail.push(new rect('#888', tail[tail.length-1].x + 20, tail[tail.length-1].y + 20, side_head, side_head));
-// }
+function addTailItem(){
+	tail.push(new rect('#888', tail[tail.length-1].x + 20, tail[tail.length-1].y + 20, side_head, side_head));
+}
