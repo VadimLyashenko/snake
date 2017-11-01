@@ -1,20 +1,19 @@
 //инициализация переменных	
 function init(){
-	//объект - game - игровое поле
-	game = new rect('#fff', 0, 0, 500, 500);
-	
 	//голова
-	side_head = 20;
-	head_posx = 160;
-	head_posy = 160;
-	head = new rect('#666', head_posx,head_posy, side_head, side_head);
+	side_head = 25;
+	head_posx = 150;
+	head_posy = 150;
+	head = new rect('#000', head_posx,head_posy, side_head, side_head);
+	
+	//объект - game - игровое поле
+	game = new rect('#fff', 0, 0, 800, 600);
 	
 	//хвост
-	tail =[];
-
-	tail[0] = new rect('#888', head_posx - side_head,head_posy, side_head, side_head);
-
-	tail[1] = new rect('#888', head_posx - side_head * 2,head_posy, side_head, side_head);
+	tail_quan = 5; //первоначальное кол-во клеток хвоста
+	tail_color = '#888'; //цвет хвоста
+	tail = [];
+	createTail(tail_color, tail_quan);
 
 	//еда
 	eat = new rect('#3e3', 20, 20, 20, 20);
@@ -26,15 +25,20 @@ function init(){
 	context = canvas.getContext('2d'); 
 	//--------------------
 	
-	//направление движения(1 вверх, 2 вправо, 3 вниз, 0 влево)
+	//первоначальное направление движения(1 вверх, 2 вправо, 3 вниз, 0 влево)
 	check = 2;
 
-	//скорость движения
-	headSpeed = 20;
+	//шаг движения
+	step = side_head;
 
 	game.drawRect();
+	
+	//скорость
+  speed = 7;
+  //цикл
 
-	setInterval(play, 1000/10);
+
+	timer = setTimeout(play, 1000/speed);
 }
 
 //отрисовка
@@ -45,77 +49,63 @@ function draw(){
 	drawEat();
 }
 
+//главная функция цикла
 function play(){
 	updateHead();
-	updateTail();
-	checkEat();
-	draw();
+	var death = checkDeath();
+	if(!death){
+		updateTail();
+		draw();
+	}
+	//checkEat();
+	timer = setTimeout(play, 1000/speed);
+	if(death){
+		clearTimeout(timer);
+		
+	}
 }
+
 
 function updateHead(){
 	switch (check) {
 		case 0:
-			if(head.x > 0){
-				head.x = head.x - headSpeed;
-			}
+				head.x = head.x - step;
 			break;
 		case 1:
-			if(head.y > 0){
-				head.y = head.y - headSpeed;
-			}
+				head.y = head.y - step;
 			break;
 		case 2:
-			if(head.x < (game.width - side_head)){
-				head.x = head.x + headSpeed;
-			}
+				head.x = head.x + step;			
 			break;
 		case 3:
-			if(head.y < (canvas.height - side_head)){
-				head.y = head.y + headSpeed;
-			}
+				head.y = head.y + step;	
 			break;
 		default:
 			break;
 	}
-	
 }
 
-function updateTail(){
-		for(var i = tail.length - 1; i > 0; i--){
-			if(check != -1){	
-				tail[i].x = tail[i-1].x;
-				tail[i].y = tail[i-1].y;
-			}
-		}
-			switch (check) {
-				case 0:	
-						tail[0].x = head.x + headSpeed;
-						tail[0].y = head.y;		
-					break;
-				case 1:	
-						tail[0].y = head.y + headSpeed;
-						tail[0].x = head.x;		
-					break;
-				case 2:
-						tail[0].x = head.x - headSpeed;
-						tail[0].y = head.y;		
-					break;
-				case 3:
-						tail[0].y = head.y - headSpeed;
-						tail[0].x = head.x;
-					break;
-				default:
-					break;
-		}
-}
-
-function addTailItem(){
-	tail.push(new rect('#888', tail[tail.length-1].x + 20, tail[tail.length-1].y + 20, side_head, side_head));
-}
-
-function drawTail(){
-	for(var i = 0; i < tail.length; i++){
-		tail[i].drawRect();
+function checkDeath(){
+	//проверка левой стороны
+	if(head.x < 0){
+		return true;
+	}
+	//проверка верхней стороны
+	if(head.y < 0){
+		return true;
+	}
+	//проверка правой стороны
+	if(head.x > game.width - step){
+		return true;
+	}
+	//проверка нижней стороны
+	if(head.y > game.height - step){
+		return true;
+	}
+	//проверка налезания на хвост
+	for(var i = 0; i < tail.length; i++)
+	if((head.x == tail[i].x)&&(head.y == tail[i].y)){
+		return true;
 	}
 }
 
@@ -130,6 +120,7 @@ function checkEat(){
 	}
 }
 
+//влево - 0, вверх - 1, вправо - 2, вниз - 3 
 document.body.onkeydown = function(e){
 	switch (e.keyCode) {
 		case 37:
@@ -166,14 +157,16 @@ function rect(color, x, y, width, height) {
     this.height = height; // высота
     this.drawRect = function() // Метод рисующий прямоугольник
     {
-        context.fillStyle = this.color;
-        context.fillRect(this.x, this.y, this.width, this.height);
+        context.strokeStyle = this.color;
+        context.strokeRect(this.x, this.y, this.width, this.height);
     }
 
-    this.clRect = function() // Метод рисующий прямоугольник
+    this.clRect = function() // Метод стирающий прямоугольник
     {
         context.clearRect(this.x, this.y, this.width, this.height);
     }
 }
+
+
 
 init();
