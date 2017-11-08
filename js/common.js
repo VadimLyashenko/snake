@@ -15,13 +15,12 @@ function init(){
 	step = 50;
 	//первоначальное направление движения(1 вверх, 2 вправо, 3 вниз, 0 влево)
 	check = 2;	
+	check_enter = false;
 	//начальная скорость
   speed = 7;
   //счет очков
   scope = 0;
-  context.font = '30px Roboto';
-  context.textAlign = 'right';
-
+  max_scope = 2;
 	//голова
 	side_head = step;
 	head_posx = 150;
@@ -40,8 +39,18 @@ function init(){
 	//картинка фона
 	backgr = new imag(0, 0);
 
+	death = true;
+
   //цикл
-	timer = setTimeout(play, 1000/speed);
+	//timer = setTimeout(play, 1000/speed);
+	backgr.drawImg(backgr_pic);
+	context.font = '60px Roboto';
+  context.textAlign = 'center';
+	context.fillText("Press Enter to play", 400, 280);
+	context.font = '40px Roboto';
+	context.fillText("Max Score: " + max_scope, 400, 400);
+
+	//resetGame();	
 }
 
 //отрисовка
@@ -53,22 +62,47 @@ function draw(){
 function play(){
 	updateHead();
 	checkEat();
-	var death = checkDeath();
+	death = checkDeath();
 	if(!death){
 		backgr.drawImg(backgr_pic);	
 		drawHead();
+		timer = setTimeout(play, 1000/speed);
 		updateTail();
 		drawTail();
 		eat.drawImg(food_pic);
 		drawScope();
 	}
-	timer = setTimeout(play, 1000/speed);
 	if(death){
-		clearTimeout(timer);
+		// context.font = 'bold 80px Roboto';
+  // 	context.textAlign = 'center';
+		// context.fillText("Game Over", 400, 160);
+		resetGame();
+		context.font = 'bold 80px Roboto';
+  	context.textAlign = 'center';
+		context.fillText("Game Over", 400, 160);	
+		context.font = '60px Roboto';
+  	context.textAlign = 'center';
+		context.fillText("Press Enter to play again", 400, 280);
+		context.font = '40px Roboto';
+		context.fillText("Max Score: " + max_scope, 400, 400);
 	}
 }
 
+function resetGame(){
+	check = 2;	
+	scope = 0;
+	speed = 7;
+	head.x = head_posx;
+	head.y = head_posy;
+	tail.length = tail_quan;
+	createTail(tail_quan);
+	//timer = setTimeout(play, 1000/speed);
+}
+
+
 function drawScope(){
+	context.font = '30px Roboto';
+  context.textAlign = 'right';
 	context.fillText("Очки: "+ scope, 770, 50);
 }
 
@@ -214,6 +248,12 @@ document.body.onkeydown = function(e){
 				key_delay = false;
 				setTimeout(function() { key_delay = true; }, 700/speed);
 			}
+			break;
+		case 13: //Enter
+			//check_enter = true;
+			if(death){
+				timer = setTimeout(play, 1000/speed);
+			}			
 			break;
 			default:
 				break;
