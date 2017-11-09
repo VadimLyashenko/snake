@@ -1,0 +1,8 @@
+#ignore folder node_modules
+/img/sourse/
+
+#ignore folder dist
+/dist/
+
+#ignore folder git
+/.git/
