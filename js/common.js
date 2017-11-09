@@ -4,12 +4,6 @@ function init(){
 	//game = new rect('#fff', 0, 0, 800, 600);
   key_delay = true;
   tail_side = true;
-	//--------------------
-	canvas = document.getElementById('canvas_id');
-	canvas.width = 800;
-	canvas.height = 600
-	context = canvas.getContext('2d'); 
-	//--------------------
 	
 	//шаг движения
 	step = 50;
@@ -28,7 +22,7 @@ function init(){
 	head = new imag(head_posx,head_posy);
 	
 	//хвост
-	tail_quan = 4; //первоначальное кол-во клеток хвоста
+	tail_quan = 3; //первоначальное кол-во клеток хвоста
 	tail = [];
 	createTail(tail_quan);
 	
@@ -44,19 +38,20 @@ function init(){
   //цикл
 	//timer = setTimeout(play, 1000/speed);
 	backgr.drawImg(backgr_pic);
+	context.font = 'bold 80px Roboto';
+  context.textAlign = 'center';
+	context.fillText("Snake", 400, 200);
 	context.font = '60px Roboto';
   context.textAlign = 'center';
-	context.fillText("Press Enter to play", 400, 280);
+	context.fillText("Press Enter to play", 400, 320);
 	context.font = '40px Roboto';
-	context.fillText("Max Score: " + max_scope, 400, 400);
-
-	//resetGame();	
+	context.fillText("Max Score: " + max_scope, 400, 440);
 }
 
 //отрисовка
-function draw(){
+// function draw(){
 	
-}
+// }
 
 //главная функция цикла
 function play(){
@@ -79,12 +74,11 @@ function play(){
 		resetGame();
 		context.font = 'bold 80px Roboto';
   	context.textAlign = 'center';
-		context.fillText("Game Over", 400, 160);	
+		context.fillText("Game Over", 400, 200);	
 		context.font = '60px Roboto';
-  	context.textAlign = 'center';
-		context.fillText("Press Enter to play again", 400, 280);
+		context.fillText("Press Enter to play again", 400, 320);
 		context.font = '40px Roboto';
-		context.fillText("Max Score: " + max_scope, 400, 400);
+		context.fillText("Max Score: " + max_scope, 400, 440);
 	}
 }
 
@@ -103,7 +97,7 @@ function resetGame(){
 function drawScope(){
 	context.font = '30px Roboto';
   context.textAlign = 'right';
-	context.fillText("Очки: "+ scope, 770, 50);
+	context.fillText("Score: "+ scope, 770, 50);
 }
 
 

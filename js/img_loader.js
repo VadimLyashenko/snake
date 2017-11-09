@@ -3,15 +3,37 @@ var image_check = 0;
 //общее кол-во картинок
 var image_need = 18;
 
+//--------------------
+canvas = document.getElementById('canvas_id');
+canvas.width = 800;
+canvas.height = 600
+context = canvas.getContext('2d'); 
+//--------------------
+
+load_pro = 0;
+context.font = '60px Roboto';
+context.textAlign = 'center';
+context.fillText("Loading: " + load_pro + "%", 400, 300);
+
+function resetLoad(){
+  context.clearRect(0, 0, 800, 600);
+	load_pro = Math.floor(load_pro + 100/image_need);
+	context.fillText("Loading: " + load_pro + "%", 400, 300);
+}
+
+function checkImg(){
+	image_check++;
+		if(image_check == image_need){
+			init();
+		}
+}
 //фоновая картинка
 var backgr_pic = new Image();
 backgr_pic.src = 'img/bg.png';
 
 backgr_pic.onload = function(){
-	image_check++;
-		if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 //голова
 var head_top_pic = new Image();
@@ -27,31 +49,23 @@ var head_bot_pic = new Image();
 head_bot_pic.src = 'img/head_bot.png';
 
 head_top_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 head_left_pic.onload = function(){
-	image_check++;
-		if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 head_right_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 head_bot_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 //5
@@ -97,87 +111,63 @@ var tail_end_left_pic = new Image();
 tail_end_left_pic.src = 'img/tail_end_left.png';
 
 tail_right_vert_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 tail_left_vert_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 tail_right_gor_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 tail_left_gor_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 tail_1_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 tail_2_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 tail_3_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 tail_4_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 tail_end_top_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 tail_end_right_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 tail_end_bot_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 tail_end_left_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
 
 //еда
@@ -185,8 +175,6 @@ var food_pic = new Image();
 food_pic.src = 'img/food.png';
 
 food_pic.onload = function(){
-	image_check++;
-	if(image_check == image_need){
-			init();
-		}
+	resetLoad();
+	checkImg();
 }
