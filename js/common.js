@@ -90,6 +90,7 @@ function resetGame(){
 	head.y = head_posy;
 	tail.length = tail_quan;
 	createTail(tail_quan);
+	checkCoordEat();
 	//timer = setTimeout(play, 1000/speed);
 }
 
