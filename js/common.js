@@ -13,8 +13,12 @@ function init(){
 	//начальная скорость
   speed = 7;
   //счет очков
-  scope = 0;
-  max_scope = 2;
+  score = 0;
+  if (!navigator.cookieEnabled) {
+  alert( 'On cookie for save your score.');
+	}
+  max_score = readMaxScore();
+  
 	//голова
 	side_head = step;
 	head_posx = 150;
@@ -45,7 +49,7 @@ function init(){
   context.textAlign = 'center';
 	context.fillText("Press Enter to play", 400, 320);
 	context.font = '40px Roboto';
-	context.fillText("Max Score: " + max_scope, 400, 440);
+	context.fillText("Max Score: " + max_score, 400, 440);
 }
 
 //отрисовка
@@ -65,12 +69,9 @@ function play(){
 		updateTail();
 		drawTail();
 		eat.drawImg(food_pic);
-		drawScope();
+		drawScore();
 	}
 	if(death){
-		// context.font = 'bold 80px Roboto';
-  // 	context.textAlign = 'center';
-		// context.fillText("Game Over", 400, 160);
 		resetGame();
 		context.font = 'bold 80px Roboto';
   	context.textAlign = 'center';
@@ -78,13 +79,17 @@ function play(){
 		context.font = '60px Roboto';
 		context.fillText("Press Enter to play again", 400, 320);
 		context.font = '40px Roboto';
-		context.fillText("Max Score: " + max_scope, 400, 440);
+		context.fillText("Max Score: " + max_score, 400, 440);
 	}
 }
 
 function resetGame(){
-	check = 2;	
-	scope = 0;
+	check = 2;
+	if(score > max_score){
+		max_score = score;
+		document.cookie = "max_score=" + max_score;
+	}
+	score = 0;
 	speed = 7;
 	head.x = head_posx;
 	head.y = head_posy;
@@ -94,11 +99,20 @@ function resetGame(){
 	//timer = setTimeout(play, 1000/speed);
 }
 
+//считывание max_score из cookie
+function readMaxScore(){
+	var reg = /\d+/g;
+	var max = document.cookie.match(reg);
+	if(max == null){
+		max = 0;
+	}
+	return max;
+}
 
-function drawScope(){
+function drawScore(){
 	context.font = '30px Roboto';
   context.textAlign = 'right';
-	context.fillText("Score: "+ scope, 770, 50);
+	context.fillText("Score: "+ score, 770, 50);
 }
 
 
@@ -175,7 +189,7 @@ function checkEat(){
 		//увеличение скорости
 		speed = speed + 0.1;
 		//добавление очков
-		scope++;
+		score++;
 		//добавление хвоста
 		addTailItem();
 		//новые координаты для еды

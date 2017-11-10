@@ -1,4 +1,3 @@
-
 var image_check = 0;
 //общее кол-во картинок
 var image_need = 18;
